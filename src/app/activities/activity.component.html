@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <h2>Actividades</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Estatus</th>
+        <!-- <th scope="col">Editar</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let actividad of data; let i = index">
+        <td>{{ actividad.idAct }}</td>
+        <td>{{ actividad.description }}</td>
+        <td>{{ actividad.getStatusName() }}</td>
+        <td>
+          <button class="btn btn-warning"  (click)="editActivity(i)" data-bs-toggle="modal" data-bs-target="#editModal">Editar</button>
+        </td>
+      </tr>
+    </tbody>
+    <br>
+    <button  class="btn btn-primary w-100" (click)="back()">Regresar</button>
+  </table>
+
+  <!-- Formulario de edición -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Editar Actividad</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="loginForm" >
+            <div class="mb-3">
+              <label for="descripcion" class="form-label">Descripción</label>
+              <input type="text" class="form-control" id="descripcion" formControlName="description" placeholder="Descripción de la actividad">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="estado" formControlName="status">
+              <label class="form-check-label" for="estado">Completada</label>
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="saveActivity()">Guardar Cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

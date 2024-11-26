@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../service/api.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,16 +10,27 @@ import { ApiService } from '../service/api.service';
 })
 export class HomeComponent implements OnInit {
 
-  data: any[]=[];
-  constructor(private  apiService: ApiService){}
+  loginForm = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl(''),
+ 
+});
+  constructor(
+    private  apiService: ApiService,
+    private router: Router,
+  ){}
+
 
   ngOnInit() {
-    this.llenarData();
+    //this.llenarData();
   }
 
-  llenarData(){
-    this.apiService.getUserData({username:'anagomez',password:'mypassword456'}).subscribe( data=> {
-      this.data = data;
+
+  async login(){
+    this.apiService.getUserData(this.loginForm.value).subscribe( data=> {
+      if(data.loggedUser){
+        this.router.navigate( [ '/activity/'+data?.loggedUser?.idUser! ] );
+      }
     })
   }
 
