@@ -18,6 +18,7 @@ export class ActivityComponent implements OnInit {
   loginForm = new FormGroup({
     user: new FormControl(),
     idAct: new FormControl(),
+    actDate: new FormControl(),
     description:new FormControl(),
     status: new FormControl()
 });
@@ -49,11 +50,12 @@ export class ActivityComponent implements OnInit {
   }
 
     // Función para manejar la edición de una actividad
-    editActivity(index: number): void {
+    editActivity(index: number) {
       const activity = this.data[index];
       this.activitySelected = activity;
       this.loginForm.patchValue({
         idAct: activity.idAct,
+        actDate: new Date(activity.actDate!).toISOString().split('T')[0],
         description: activity.description,
         status: activity.status === 1  
       });

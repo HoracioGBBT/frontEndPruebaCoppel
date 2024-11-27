@@ -1,29 +1,38 @@
 <div class="container mt-4">
   <h2>Actividades</h2>
+  
+  <div class="d-flex justify-content-end">
+    <button class="btn btn-success mb-3" data-bs-toggle="modal" (click)="saveActivity()" data-bs-target="#editModal">
+      Crear Nueva Actividad
+    </button>
+  </div>
+  
+  
   <table class="table table-striped">
     <thead>
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Descripción</th>
+        <th scope="col">Fecha</th>
         <th scope="col">Estatus</th>
-        <!-- <th scope="col">Editar</th> -->
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let actividad of data; let i = index">
         <td>{{ actividad.idAct }}</td>
         <td>{{ actividad.description }}</td>
+        <td>{{ actividad.actDate | date:'dd/MM/yyyy' }}</td>
         <td>{{ actividad.getStatusName() }}</td>
         <td>
-          <button class="btn btn-warning"  (click)="editActivity(i)" data-bs-toggle="modal" data-bs-target="#editModal">Editar</button>
+          <button class="btn btn-warning" (click)="editActivity(i)" data-bs-toggle="modal" data-bs-target="#editModal">Editar</button>
         </td>
       </tr>
     </tbody>
-    <br>
-    <button  class="btn btn-primary w-100" (click)="back()">Regresar</button>
   </table>
 
-  <!-- Formulario de edición -->
+  <button class="btn btn-primary w-100" (click)="back()">Regresar</button>
+
+  <!-- Modal de edición -->
   <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -32,7 +41,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form [formGroup]="loginForm" >
+          <form [formGroup]="loginForm">
             <div class="mb-3">
               <label for="descripcion" class="form-label">Descripción</label>
               <input type="text" class="form-control" id="descripcion" formControlName="description" placeholder="Descripción de la actividad">
@@ -41,7 +50,11 @@
               <input type="checkbox" class="form-check-input" id="estado" formControlName="status">
               <label class="form-check-label" for="estado">Completada</label>
             </div>
-            <button type="submit" class="btn btn-primary" (click)="saveActivity()">Guardar Cambios</button>
+            <div class="mb-3">
+              <label for="fecha" class="form-label">Fecha</label>
+              <input type="date" class="form-control" id="fecha" formControlName="actDate">
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="saveActivity()" data-bs-dismiss="modal">Guardar Cambios</button>
           </form>
         </div>
       </div>
