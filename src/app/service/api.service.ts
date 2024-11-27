@@ -20,6 +20,6 @@ export class ApiService {
   }
 
   public saveActivityData(params: any): Observable<any>{
-    return this.http.put<any>(this.urlApi+'activities/save/a/b/c',{params});
+    return this.http.put<any>(this.urlApi+'activities/save',{params});
   }
 }
