@@ -20,7 +20,7 @@ export class ActivityComponent implements OnInit {
     idAct: new FormControl(),
     actDate: new FormControl(),
     description:new FormControl(),
-    status: new FormControl()
+    status: new FormControl(false)
 });
 
   constructor(
@@ -33,6 +33,7 @@ export class ActivityComponent implements OnInit {
 
   async ngOnInit() {
     this.loginForm.get('user')?.setValue(Number(this.route.snapshot.paramMap.get('idUser')))
+    
     await this.getActivities();
   }
 
@@ -46,10 +47,10 @@ export class ActivityComponent implements OnInit {
   async saveActivity(){
     this.apiService.saveActivityData(this.loginForm.value).subscribe( data=> {
       this.getActivities();
+      this.clean();
     })
   }
 
-    // Función para manejar la edición de una actividad
     editActivity(index: number) {
       const activity = this.data[index];
       this.activitySelected = activity;
@@ -63,6 +64,12 @@ export class ActivityComponent implements OnInit {
 
   async back(){
     this.router.navigate( [ '' ] );
+  }
+
+  clean(){
+    this.loginForm.reset();
+    this.loginForm.get('status')?.setValue(false);
+    this.loginForm.get('user')?.setValue(Number(this.route.snapshot.paramMap.get('idUser')))
   }
 
 
